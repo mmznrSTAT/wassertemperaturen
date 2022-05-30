@@ -2,8 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import pandas as pd
-import time
-
 from datetime import datetime
 
 url = "https://hw.zh.ch/hochwasser/mac/AktWassertemp.HTML"
