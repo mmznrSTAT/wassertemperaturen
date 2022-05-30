@@ -18,6 +18,10 @@ jobs:
     - uses: jannekem/run-python-script-action@v1
       with:
         script: |
+          pip install requests
+          pip install bs4
+          pip install lxml
+          pip install pandas
           import requests
           from bs4 import BeautifulSoup
           import lxml
