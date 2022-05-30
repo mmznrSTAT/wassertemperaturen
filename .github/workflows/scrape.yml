@@ -15,6 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
+    - run: pip install -r requirements.txt
     - run: 
         python watertemp_scraper.py
     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
