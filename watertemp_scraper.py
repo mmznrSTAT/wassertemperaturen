@@ -37,7 +37,5 @@ for el in soup.find_all('tr')[1:-1]:
 
 
 df = pd.DataFrame(dct_lst)   
+df.to_csv('data/wassertemperaturen_all.csv', mode='a', header=False)
 
-df.to_csv("data/temperatur_"+filename +".csv", index=False)
-with open('data/wassertemperaturen_all.csv','a') as fd:
-    fd.write(df)
