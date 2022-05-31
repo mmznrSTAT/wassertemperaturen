@@ -1,7 +1,7 @@
 name: scraper
 on:
   schedule:
-    - cron:  '* */12 * * *' # run every 12 hours
+    - cron:  '00 01,13 * * *' # run every 12 hours
   workflow_dispatch: ~
 
 
