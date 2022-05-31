@@ -37,9 +37,7 @@ for el in soup.find_all('tr')[1:-1]:
 
 
 df = pd.DataFrame(dct_lst)   
-stations = pd.read_csv('data/WB_HYDROMETRISCHE_STATIONEN_P.csv')
-stations.rename(columns = {'NAME':'gewaesser'}, inplace = True)
-stations['gewaesser'] = stations['gewaesser'].str.replace(" - ","-")
+stations = pd.read_csv('data/matching_tab.csv')
 
 df = pd.merge(df,stations, on='gewaesser', how='left')
 
