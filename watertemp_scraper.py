@@ -20,6 +20,10 @@ for el in soup.find_all('tr')[1:-1]:
 
     this_row = el.find_all('td')
     
+    now = datetime.now()
+    filename = now.strftime("%Y%m%d-%Hh%M")
+
+    mydict['Datum'] = now.strftime("%Y%m%d-%Hh%M")
     mydict['Gewässer'] =  this_row[0].text.replace("''","").strip()
     mydict['Messeinheit'] = this_row[1].text.replace("''","").strip()
     mydict['Datum']=        this_row[2].text.replace("''","").strip()
@@ -33,7 +37,7 @@ for el in soup.find_all('tr')[1:-1]:
 
 
 df = pd.DataFrame(dct_lst)   
-now = datetime.now()
-filename = now.strftime("%Y%m%d-%Hh%M")
 
 df.to_csv("data/temperatur_"+filename +".csv", index=False)
+with open('data/wassertemperaturen_all.csv','a') as fd:
+    fd.write(df)
