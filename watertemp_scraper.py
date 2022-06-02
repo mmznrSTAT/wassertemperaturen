@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import pandas as pd
-import math
 from datetime import datetime
 import ch1903_wgs84 as geo
 
