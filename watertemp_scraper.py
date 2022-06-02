@@ -2,44 +2,61 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import pandas as pd
+import math
 from datetime import datetime
+import ch1903_wgs84 as geo
 
-url = "https://hw.zh.ch/hochwasser/mac/AktWassertemp.HTML"
+if __name__ == "__main__":
 
-# Mit request Webseite aufrufen
-r = requests.get(url)
+    url = "https://hw.zh.ch/hochwasser/mac/AktWassertemp.HTML"
 
-# wir machen eine Suppe aus der Antwort
-soup = BeautifulSoup(r.content, 'lxml')
+    # Mit request Webseite aufrufen
+    r = requests.get(url)
 
-dct_lst = []
+    # wir machen eine Suppe aus der Antwort
+    soup = BeautifulSoup(r.content, 'lxml')
 
-for el in soup.find_all('tr')[1:-1]:
+    dct_lst = []
 
-    mydict = {}
+    for el in soup.find_all('tr')[1:-1]:
 
-    this_row = el.find_all('td')
-    
-    now = datetime.now()
-    filename = now.strftime("%Y%m%d-%Hh%M")
+        mydict = {}
 
-    mydict['DatumScraping'] = now.strftime("%Y%m%d-%Hh%M")
-    mydict['gewaesser'] =  this_row[0].text.replace("''","").strip()
-    mydict['Messeinheit'] = this_row[1].text.replace("''","").strip()
-    mydict['Datum']=        this_row[2].text.replace("''","").strip()
-    mydict['Aktueller_Wert'] = this_row[3].text.replace("''","").strip()
-    mydict['24h_vorher'] =  this_row[4].text.replace("''","").strip()
-    mydict['Differenz'] =  this_row[5].text.replace("''","").strip()
-    mydict['Mittel_24h'] =  this_row[6].text.replace("''","").strip()
-    mydict['Maximum_24h'] = this_row[7].text.replace("''","").strip()
-    mydict['Minimum_24h'] = this_row[8].text.replace("''","").strip()
-    dct_lst.append(mydict)
+        this_row = el.find_all('td')
+        
+        now = datetime.now()
+        filename = now.strftime("%Y%m%d-%Hh%M")
+
+        mydict['DatumScraping'] = now.strftime("%Y%m%d-%Hh%M")
+        mydict['gewaesser'] =  this_row[0].text.replace("''","").strip()
+        mydict['Messeinheit'] = this_row[1].text.replace("''","").strip()
+        mydict['Datum']=        this_row[2].text.replace("''","").strip()
+        mydict['Aktueller_Wert'] = this_row[3].text.replace("''","").strip()
+        mydict['24h_vorher'] =  this_row[4].text.replace("''","").strip()
+        mydict['Differenz'] =  this_row[5].text.replace("''","").strip()
+        mydict['Mittel_24h'] =  this_row[6].text.replace("''","").strip()
+        mydict['Maximum_24h'] = this_row[7].text.replace("''","").strip()
+        mydict['Minimum_24h'] = this_row[8].text.replace("''","").strip()
+        dct_lst.append(mydict)
 
 
-df = pd.DataFrame(dct_lst)   
-stations = pd.read_csv('data/matching_tab.csv')
+    df = pd.DataFrame(dct_lst)   
+    stations = pd.read_csv('data/matching_tab.csv')
 
-df = pd.merge(df,stations, on='gewaesser', how='left')
+    df = pd.merge(df,stations, on='gewaesser', how='left')
 
-df.to_csv('data/wassertemperaturen_all.csv', mode='a', header=False)
 
+
+
+    ''' Example usage for the GPSConverter class.'''
+
+    converter = geo.GPSConverter()
+
+
+    df["wgs84_x"] = converter.LV03toWGS84(df["N"], df["E"], df["MITTLERE_HOEHE"])[0]
+
+    df["wgs84_y"] = converter.LV03toWGS84(df["N"], df["E"], df["MITTLERE_HOEHE"])[1]
+
+    df.head()
+
+    df.to_csv('data/wassertemperaturen_all.csv', mode='a', header=False)
