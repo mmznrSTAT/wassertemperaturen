@@ -52,9 +52,9 @@ if __name__ == "__main__":
     converter = geo.GPSConverter()
 
 
-    df["wgs84_x"] = converter.LV03toWGS84(df["N"]-1000000, df["E"]-2000000, df["MITTLERE_HOEHE"])[0]
+    df["wgs84_x"] = converter.LV03toWGS84(df["E"]-2000000, df["N"]-1000000, df["MITTLERE_HOEHE"])[0]
 
-    df["wgs84_y"] = converter.LV03toWGS84(df["N"]-1000000, df["E"]-2000000, df["MITTLERE_HOEHE"])[1]
+    df["wgs84_y"] = converter.LV03toWGS84(df["E"]-2000000, df["N"]-1000000, df["MITTLERE_HOEHE"])[1]
 
     df.head()
 
