@@ -30,7 +30,7 @@ if __name__ == "__main__":
         mydict['gewaesser'] =  this_row[0].text.replace("''","").strip()
         mydict['Messeinheit'] = this_row[1].text.replace("''","").strip()
         mydict['datum_messung']=        this_row[2].text.replace("''","").strip()[5:]
-        mydict['zeit_messung']=        this_row[2].text.replace("''","").strip()[:size - 10]
+        mydict['zeit_messung']=        this_row[2].text.replace("''","").strip()[:len(this_row[2].text.replace("''","").strip()) - 10]
         mydict['Aktueller_Wert'] = this_row[3].text.replace("''","").strip()
         mydict['24h_vorher'] =  this_row[4].text.replace("''","").strip()
         mydict['Differenz'] =  this_row[5].text.replace("''","").strip()
