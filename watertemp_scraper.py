@@ -39,24 +39,14 @@ if __name__ == "__main__":
         mydict['Minimum_24h'] = this_row[8].text.replace("''","").strip()
         dct_lst.append(mydict)
 
-
     df = pd.DataFrame(dct_lst)   
     stations = pd.read_csv('data/matching_tab.csv')
 
     df = pd.merge(df,stations, on='gewaesser', how='left')
 
-
-
-
     ''' Example usage for the GPSConverter class.'''
-
     converter = geo.GPSConverter()
-
-
     df["wgs84_x"] = converter.LV03toWGS84(df["E"]-2000000, df["N"]-1000000, df["MITTLERE_HOEHE"])[0]
-
     df["wgs84_y"] = converter.LV03toWGS84(df["E"]-2000000, df["N"]-1000000, df["MITTLERE_HOEHE"])[1]
-
-    df.head()
 
     df.to_csv('data/wassertemperaturen_all.csv', mode='a', header=False)
