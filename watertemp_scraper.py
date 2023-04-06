@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     url = "https://hw.zh.ch/hochwasser/mac/AktWassertemp.HTML"
 
-    # Mit request Webseite aufrufen
+    # Mit request Webseite aufrufen 
     r = requests.get(url)
 
     # wir machen eine Suppe aus der Antwort
